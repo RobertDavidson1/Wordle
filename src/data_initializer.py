@@ -6,6 +6,7 @@ def download_file_if_missing(url, path):
     if not os.path.isfile(path):
         print(f"\n{os.path.basename(path)} does not exist. ❌")
         print("Downloading.. ⏳")
+        time.sleep(1)
 
         response = requests.get(url, verify=True)
         if response.status_code == 200:
@@ -34,21 +35,22 @@ def ensure_data_exists():
         print("Creating.. ⏳")
         os.makedirs(DATA_DIRECTORY)
         print("Data folder created. ✅\n")
+        time.sleep(1)
     else:
         print("Data folder exists. ✅")
-    time.sleep(1)
+    
     
     download_file_if_missing(GUESSES_URL, GUESSES_PATH)
-    time.sleep(1)
+    
     
     download_file_if_missing(ANSWERS_URL, ANSWERS_PATH)
-    time.sleep(1)
+    
 
     if not os.path.isfile(PRECOMPUTE_PATH):
         print("\nprecompute.json does not exist ❌")
         if os.path.isfile(os.path.join(os.path.dirname(__file__), 'precompute.py')):
             print("Creating precompute.json.. ⏳")
-            time.sleep(3)
+            # time.sleep(3)
             from precompute import create_precompute_json
             create_precompute_json(DATA_DIRECTORY)
         else:
@@ -56,7 +58,6 @@ def ensure_data_exists():
             print("Please redownload from github")
     else:
         print("precompute.json exists. ✅")
-        time.sleep(1)
         
 
 

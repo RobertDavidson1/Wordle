@@ -1,4 +1,3 @@
-from typing import NoReturn
 import os
 import requests
 import time
@@ -21,7 +20,7 @@ def download_file_if_missing(url, path):
     
 
 
-def ensure_data_exists() -> NoReturn:
+def ensure_data_exists():
     DATA_DIRECTORY = os.path.join(os.path.dirname(__file__), '..', 'data',)
     GUESSES_PATH = os.path.join(DATA_DIRECTORY, 'allowed_guesses.txt')
     ANSWERS_PATH = os.path.join(DATA_DIRECTORY, 'allowed_answers.txt')

@@ -22,7 +22,6 @@ def download_file_if_missing(url, path):
 
 
 def ensure_data_exists() -> NoReturn:
-
     DATA_DIRECTORY = os.path.join(os.path.dirname(__file__), '..', 'data',)
     GUESSES_PATH = os.path.join(DATA_DIRECTORY, 'allowed_guesses.txt')
     ANSWERS_PATH = os.path.join(DATA_DIRECTORY, 'allowed_answers.txt')
@@ -30,9 +29,7 @@ def ensure_data_exists() -> NoReturn:
 
     GUESSES_URL = "https://raw.githubusercontent.com/RobertDavidson1/Wordle/main/data/allowed_guesses.txt"
     ANSWERS_URL = "https://raw.githubusercontent.com/RobertDavidson1/Wordle/main/data/allowed_answers.txt"
-
-
-
+    
     if not os.path.isdir(DATA_DIRECTORY):
         print("Data folder does not exist.")
         print("Creating..")
@@ -62,7 +59,7 @@ def ensure_data_exists() -> NoReturn:
         print("precompute.json exists")
         time.sleep(1)
         
-ensure_data_exists()
+
 
         
     

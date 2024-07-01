@@ -1,14 +1,9 @@
 from collections import Counter
 import os
 import json
-import platform
 
-def clear_terminal():
-    current_os = platform.system()
-    if current_os == "Windows":
-        os.system('cls')
-    else:
-        os.system('clear')
+from helpers import clear_terminal, load_words
+
 
 def get_tile_coloring(guess, solution):
     result = ['-' for _ in range(len(guess))]  # Start with all white
@@ -31,10 +26,7 @@ def get_tile_coloring(guess, solution):
     return ''.join(result)
 
 
-def load_words(file_path):
-    with open(file_path, "r") as file_handle:
-        word_array = [word.strip() for word in file_handle]
-    return word_array
+
 
 
 def create_precompute_json(DATA_DIRECTORY):

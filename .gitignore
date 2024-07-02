@@ -3,3 +3,4 @@ src/__pycache__/
 temp/
 src/temp.py
 src/mp.py
+src/main.ipynb

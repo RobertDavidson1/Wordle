@@ -47,7 +47,12 @@ def create_precompute_json(DATA_DIRECTORY):
     answers = load_words(ANSWERS_PATH)
 
     colouring_hashmap = {}
-    for guess in guesses:
+    for i, guess in enumerate(guesses):
+        if i != 0 and i % (len(guesses) // 70) == 0:  # Clear terminal and show progress every 10%
+            clear_terminal()
+            print(f"Creating precompute.json | Progress: {i / len(guesses):.3%}")
+
+
         possible_colourings = {}
         for solution in answers:
             colouring = get_tile_coloring(guess, solution)

@@ -1,3 +1,5 @@
 data/precompute.json
 src/__pycache__/
 temp/
+src/temp.py
+src/mp.py

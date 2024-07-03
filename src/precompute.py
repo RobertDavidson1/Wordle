@@ -1,12 +1,10 @@
 from collections import Counter
 import os
 import json
-
 from helpers import clear_terminal, load_words
 
 
 def get_tile_coloring(guess, solution):
-
     result = ['-'] * len(guess)  # Start with all white
     solution_counts = {}
 
@@ -32,11 +30,6 @@ def get_tile_coloring(guess, solution):
                 solution_counts[char] -= 1
 
     return ''.join(result)
-
-
-
-
-
 
 def create_precompute_json(DATA_DIRECTORY):
     GUESSES_PATH = os.path.join(DATA_DIRECTORY, 'allowed_guesses.txt')

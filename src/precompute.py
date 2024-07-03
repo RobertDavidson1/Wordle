@@ -3,7 +3,6 @@ import os
 import json
 from helpers import clear_terminal, load_words
 
-
 def get_tile_coloring(guess, solution):
     result = ['-'] * len(guess)  # Start with all white
     solution_counts = {}

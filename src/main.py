@@ -23,7 +23,7 @@ def compute_value(t, state, actions, v_mem, colouring_data):
     elif t == 5:
         return (1, None)
     elif len(state) == 1:
-        return (1, None)
+        return (1, (state)[0])
     elif len(state) == 2:
         return (1.5, (state)[0])
 
@@ -36,7 +36,7 @@ def compute_value(t, state, actions, v_mem, colouring_data):
             i = actions.index(action)
             if i!= 0 and i % (len(actions)//70) == 0:
                 clear_terminal()
-                print(f"Finding best word | Progress {actions.index(action) / len(actions)}")
+                print(f"Finding best word | Progress {actions.index(action) / len(actions):3f}")
         
         temp = 1
         next_states = get_transition_info(state, action, colouring_data)
@@ -46,10 +46,11 @@ def compute_value(t, state, actions, v_mem, colouring_data):
 
         temp += (2 * len(state) - 1) / len(state)
 
-        for next_state in next_states.keys():
-            if temp >= state_value:
+        if temp >= state_value:
                 break
-            elif "".join(next_state) == action:
+        
+        for next_state in next_states.keys():
+            if "".join(next_state) == action:
                 continue
 
             value, _ = compute_value(t+1, next_state, actions, v_mem, colouring_data)
@@ -58,7 +59,7 @@ def compute_value(t, state, actions, v_mem, colouring_data):
         if temp < state_value:
             state_value = temp
             best_word = action
-
+        
     v_mem[(t, state)] = (state_value, best_word)
     return state_value, best_word
 

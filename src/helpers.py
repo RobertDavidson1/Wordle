@@ -1,6 +1,18 @@
 import os
 import platform
 import orjson
+import numpy as np
+
+def get_transition_info(state, action, colouring_data):
+    new_state = {}
+    for word in state:
+        colouring = colouring_data[action][word]
+        if colouring not in new_state:
+            new_state[colouring] = [word]
+        else:
+            new_state[colouring].append(word)
+    transition_info = {tuple(states): (len(states) / len(state)) for states in new_state.values()}
+    return transition_info
 
 def clear_terminal():
     current_os = platform.system()
@@ -21,23 +33,45 @@ def load_colouring(file_path):
         data = orjson.loads(file.read())
     return data
 
-def heuristic_split_and_insert(actions, state, processes):
-    # Split the actions list into cpus number of sublists
-    def split_list(words, cpus):
-        k, m = divmod(len(words), cpus)
-        return [words[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(cpus)]
+def heuristic_split_and_insert(actions, state, processes, colouring_data):
 
-    # Split the actions list
-    sublists = split_list(actions, processes)
+    # actions = [word for word in actions if word not in state]
+
+
+    hash = {}
+    for guess in actions:
+        res = get_transition_info(state, guess, colouring_data)
+        hash[guess] = len(res)
+
+    lower_bound = np.percentile(list(hash.values()), 99)
+
+    filtered_words = []
+
+    for word in hash.keys():
+        if hash[word] >= lower_bound:
+            filtered_words.append(word)
+
     
-    # Convert the state tuple to a list for manipulation
-    temp = list(state)
+    def split_list(words, cpus):
+        split_arrays = np.array_split(words, cpus)
+        return [list(map(str, sublist)) for sublist in split_arrays]
 
-    # Insert state words into sublists using a round-robin approach
-    i = 0
-    while temp:
-        sublists[i].insert(0, temp.pop())
-        i += 1 
-        i = i % processes
+    sublists = split_list(filtered_words, processes)
     
     return sublists
+
+def heuristic(actions, state, colouring_data):
+    hash = {}
+    for guess in actions:
+        res = get_transition_info(state, guess, colouring_data)
+        hash[guess] = len(res)
+
+    lower_bound = np.percentile(list(hash.values()), 95)
+
+    filtered_words = []
+
+    for word in hash.keys():
+        if hash[word] >= lower_bound:
+            filtered_words.append(word)
+    return filtered_words
+    

@@ -1,0 +1,5 @@
+instead of recalulting on depth 2 for each state, use a manager dict
+tidy up the code
+experiment with a core just for state
+fix the heurestics for speed
+improve / remove colouring

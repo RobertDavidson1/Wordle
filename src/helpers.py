@@ -36,7 +36,7 @@ def load_colouring(file_path):
 
 def heuristic(actions, state,colouring_data, processes_to_split=1):
 
-    percentile = 99 if processes_to_split != 1 else 95
+    percentile = 99.9 if processes_to_split != 1 else 99.5
 
     transition_counts = {guess: len(get_transition_info(state, guess, colouring_data)) for guess in actions}
 

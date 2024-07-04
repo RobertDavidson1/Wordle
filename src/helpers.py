@@ -33,20 +33,21 @@ def load_colouring(file_path):
         data = orjson.loads(file.read())
     return data
 
-def heuristic_split_and_insert(actions, state, processes, colouring_data):
+def heuristic(actions, state,colouring_data, processes_to_split=1):
 
-    # actions = [word for word in actions if word not in state]
-
+    if processes_to_split != 1:
+        percentile = 99
+    else:
+        percentile = 95
 
     hash = {}
     for guess in actions:
         res = get_transition_info(state, guess, colouring_data)
         hash[guess] = len(res)
 
-    lower_bound = np.percentile(list(hash.values()), 99)
-
+    
+    lower_bound = np.percentile(list(hash.values()), percentile)
     filtered_words = []
-
     for word in hash.keys():
         if hash[word] >= lower_bound:
             filtered_words.append(word)
@@ -56,22 +57,7 @@ def heuristic_split_and_insert(actions, state, processes, colouring_data):
         split_arrays = np.array_split(words, cpus)
         return [list(map(str, sublist)) for sublist in split_arrays]
 
-    sublists = split_list(filtered_words, processes)
-    
-    return sublists
-
-def heuristic(actions, state, colouring_data):
-    hash = {}
-    for guess in actions:
-        res = get_transition_info(state, guess, colouring_data)
-        hash[guess] = len(res)
-
-    lower_bound = np.percentile(list(hash.values()), 95)
-
-    filtered_words = []
-
-    for word in hash.keys():
-        if hash[word] >= lower_bound:
-            filtered_words.append(word)
-    return filtered_words
-    
+    if percentile == 99:
+        return split_list(filtered_words, processes_to_split)
+    else:
+        return filtered_words

@@ -70,13 +70,13 @@ def compute_value(state, all_guesses, colouring_data, filtered_split_actions, sh
     return state_value, best_word
 
 def process_task(state, all_guesses, colouring_data, filtered_split_actions, shared_state, hash, result_queue):
+    print(f"{filtered_split_actions[:3]}")
     results = compute_value(state, all_guesses, colouring_data, filtered_split_actions, shared_state, hash)
     result_queue.put((multiprocessing.current_process().name, results))
 
 def set_cpu_affinity(pid, core_id):
     try:
         os.sched_setaffinity(pid, {core_id})
-        # print(f"Core : {core_id}")
     except AttributeError:
         print("CPU affinity setting is not supported on this platform.")
     except Exception as e:
@@ -86,10 +86,12 @@ import time
 if __name__ == "__main__":
     ensure_data_exists()
 
-    PROCESSES = min(10, os.cpu_count())
+    PROCESSES = min(14, os.cpu_count())
     DATA_DIRECTORY = os.path.join(os.path.dirname(__file__), '..', 'data')
     GUESSES_PATH = os.path.join(DATA_DIRECTORY, 'allowed_guesses.txt')
     PRECOMPUTE_PATH = os.path.join(DATA_DIRECTORY, 'precompute.json')
+    ANSWERS_PATH = os.path.join(DATA_DIRECTORY, 'allowed_answers.txt')
+
 
     manager = multiprocessing.Manager()
     result_queue = manager.Queue()
@@ -98,9 +100,11 @@ if __name__ == "__main__":
 
     colouring_data = load_colouring(PRECOMPUTE_PATH)
     all_guesses = load_words(GUESSES_PATH)
-    state = ('scene', 'scone', 'scope', 'score', 'seedy', 'segue', 'seize', 'sense', 'serif', 'serum', 'serve', 'sheik', 'shine', 'shire', 'shone', 'shore', 'shove', 'siege', 'sieve', 'since', 'singe', 'smoke', 'snide', 'snipe', 'snore', 'speck', 'spend', 'sperm', 'spice', 'spike', 'spine', 'spire', 'spoke', 'spore', 'surge', 'swine', 'swore')
+    all_answers = load_words(ANSWERS_PATH)
+    state = ('biddy', 'bingo', 'birch', 'bobby', 'bongo', 'booby', 'boozy', 'bough', 'bound', 'brick', 'bring', 'brink', 'briny', 'brood', 'brook', 'broom', 'brown', 'buddy', 'buggy', 'bunch', 'bunny', 'buxom', 'chick', 'chirp', 'chock', 'choir', 'chord', 'chuck', 'chump', 'chunk', 'churn', 'cinch', 'civic', 'comfy', 'comic', 'conch', 'condo', 'conic', 'corny', 'couch', 'cough', 'crick', 'crimp', 'crock', 'crony', 'crook', 'croup', 'crowd', 'crown', 'crumb', 'crump', 'cubic', 'cumin', 'curio', 'curry', 'curvy', 'cynic', 'dingo', 'dingy', 'dizzy', 'dodgy', 'doing', 'donor', 'dough', 'dowdy', 'downy', 'dowry', 'drink', 'droop', 'drown', 'druid', 'drunk', 'duchy', 'dummy', 'dumpy', 'dying', 'finch', 'fizzy', 'fjord', 'foggy', 'forgo', 'forum', 'found', 'frock', 'frond', 'frown', 'fungi', 'funky', 'funny', 'furor', 'furry', 'fuzzy', 'giddy', 'going', 'goody', 'goofy', 'gourd', 'grimy', 'grind', 'groin', 'groom', 'group', 'grown', 'gruff', 'gumbo', 'gummy', 'guppy', 'hippo', 'hippy', 'hobby', 'honor', 'horny', 'hound', 'howdy', 'humid', 'humor', 'humph', 'hunch', 'hunky', 'hurry', 'hydro', 'icing', 'idiom', 'inbox', 'incur', 'ionic', 'irony', 'ivory', 'jiffy', 'juicy', 'jumbo', 'jumpy', 'juror', 'kinky', 'knock', 'known', 'micro', 'mimic', 'minim', 'minor', 'moody', 'moron', 'morph', 'mound', 'mourn', 'mucky', 'muddy', 'mummy', 'munch', 'murky', 'myrrh', 'ninny', 'nymph', 'occur', 'onion', 'opium', 'ovoid', 'owing', 'phony', 'picky', 'piggy', 'pinch', 'pinky', 'pooch', 'poppy', 'porch', 'pouch', 'pound', 'prick', 'primo', 'prior', 'privy', 'prong', 'proof', 'proud', 'proxy', 'pubic', 'pudgy', 'puffy', 'punch', 'puppy', 'pygmy', 'quick', 'quirk', 'rhino', 'rigid', 'rigor', 'robin', 'rocky', 'roomy', 'rough', 'round', 'rowdy', 'ruddy', 'rugby', 'rumor', 'undid', 'unify', 'union', 'unzip', 'vigor', 'vivid', 'vouch', 'vying', 'which', 'whiff', 'whiny', 'whoop', 'widow', 'wimpy', 'winch', 'windy', 'woody', 'woozy', 'wordy', 'worry', 'wound', 'wring', 'wrong', 'wrung', 'young')
 
     filtered_split_actions = heuristic(all_guesses, state, colouring_data, PROCESSES)
+    
 
 
     manager = multiprocessing.Manager()
@@ -118,10 +122,9 @@ if __name__ == "__main__":
  
     start_time = time.time()
     i = 0
-    for p in processes:
-        i+=1
+    for i, p in enumerate(processes):
         p.start()
-        set_cpu_affinity(p.pid, i)
+        set_cpu_affinity(p.pid, i + 1) 
         
 
     for p in processes:

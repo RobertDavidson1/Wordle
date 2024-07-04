@@ -41,13 +41,10 @@ def heuristic(actions, state,colouring_data, processes_to_split=1):
     transition_counts = {guess: len(get_transition_info(state, guess, colouring_data)) for guess in actions}
 
     lower_bound = np.percentile(list(transition_counts.values()), percentile)
-    filtered_actions = [action for action, count in transition_counts.items() if count >= lower_bound]
+    filtered_words = [word for word, count in transition_counts.items() if count >= lower_bound]
 
     if processes_to_split != 1:
-        split_actions = np.array_split(filtered_actions, processes_to_split)
-        return [list(map(str, sublist)) for sublist in split_actions]
+        split_arrays = np.array_split(filtered_words, processes_to_split)
+        return [list(map(str, sublist)) for sublist in split_arrays]
     else:
-        return filtered_actions
-
-    
-    
+        return filtered_words

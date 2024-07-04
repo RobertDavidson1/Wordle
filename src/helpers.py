@@ -1,3 +1,4 @@
+from typing import List, Dict
 import os
 import platform
 import orjson
@@ -35,29 +36,18 @@ def load_colouring(file_path):
 
 def heuristic(actions, state,colouring_data, processes_to_split=1):
 
+    percentile = 99 if processes_to_split != 1 else 95
+
+    transition_counts = {guess: len(get_transition_info(state, guess, colouring_data)) for guess in actions}
+
+    lower_bound = np.percentile(list(transition_counts.values()), percentile)
+    filtered_actions = [action for action, count in transition_counts.items() if count >= lower_bound]
+
     if processes_to_split != 1:
-        percentile = 99
+        split_actions = np.array_split(filtered_actions, processes_to_split)
+        return [list(map(str, sublist)) for sublist in split_actions]
     else:
-        percentile = 95
-
-    hash = {}
-    for guess in actions:
-        res = get_transition_info(state, guess, colouring_data)
-        hash[guess] = len(res)
+        return filtered_actions
 
     
-    lower_bound = np.percentile(list(hash.values()), percentile)
-    filtered_words = []
-    for word in hash.keys():
-        if hash[word] >= lower_bound:
-            filtered_words.append(word)
-
     
-    def split_list(words, cpus):
-        split_arrays = np.array_split(words, cpus)
-        return [list(map(str, sublist)) for sublist in split_arrays]
-
-    if percentile == 99:
-        return split_list(filtered_words, processes_to_split)
-    else:
-        return filtered_words

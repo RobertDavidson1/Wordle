@@ -4,6 +4,33 @@ import platform
 import orjson
 import numpy as np
 
+def get_tile_coloring(guess, solution):
+    result = ['-'] * len(guess)  # Start with all white
+    solution_counts = {}
+
+    # Count occurrences of each character in the solution
+    for char in solution:
+        if char in solution_counts:
+            solution_counts[char] += 1
+        else:
+            solution_counts[char] = 1
+
+    # First pass: mark greens and reduce counts for correct letters
+    for i in range(len(guess)):
+        if guess[i] == solution[i]:
+            result[i] = 'g'
+            solution_counts[guess[i]] -= 1
+
+    # Second pass: mark yellows, ensuring not to exceed the available count of each character
+    for i in range(len(guess)):
+        if result[i] == '-':  # Only check for yellow if it's not already green
+            char = guess[i]
+            if char in solution_counts and solution_counts[char] > 0:
+                result[i] = 'y'
+                solution_counts[char] -= 1
+
+    return ''.join(result)
+
 def get_transition_info(state, action, colouring_data):
     new_state = {}
     for word in state:
@@ -35,7 +62,7 @@ def load_colouring(file_path):
     return data
 
 def heuristic(actions, state,colouring_data, processes_to_split=1):
-    percentile = 99.94 if processes_to_split != 1 else 99.9
+    percentile = 99.8 if processes_to_split != 1 else 99
     transition_counts = {guess: len(get_transition_info(state, guess, colouring_data)) for guess in actions}
     lower_bound = np.percentile(list(transition_counts.values()), percentile)
     filtered_words = [word for word, count in transition_counts.items() if count >= lower_bound]

@@ -26,6 +26,7 @@ def ensure_data_exists():
     GUESSES_PATH = os.path.join(DATA_DIRECTORY, 'allowed_guesses.txt')
     ANSWERS_PATH = os.path.join(DATA_DIRECTORY, 'allowed_answers.txt')
     PRECOMPUTE_PATH = os.path.join(DATA_DIRECTORY, 'precompute.json')
+    SOLVED_JSON_PATH = os.path.join(DATA_DIRECTORY, 'solved_games.json')
 
     GUESSES_URL = "https://raw.githubusercontent.com/RobertDavidson1/Wordle/main/data/allowed_guesses.txt"
     ANSWERS_URL = "https://raw.githubusercontent.com/RobertDavidson1/Wordle/main/data/allowed_answers.txt"
@@ -58,9 +59,15 @@ def ensure_data_exists():
             print("Please redownload from github")
     else:
         print("precompute.json exists. ✅")
-        
 
-    print("")
+    if not os.path.isfile(SOLVED_JSON_PATH):
+        print("\nsolved_game.json does not exist ❌")
+        print("")
+        return False
+        
+    else:
+        print("")
+        return True
 
         
     

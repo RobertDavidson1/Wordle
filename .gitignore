@@ -15,3 +15,9 @@ src/main.py
 src/main.py
 src/KEEP.ipynb
 src/main.py
+data/backup.json
+flask/__pycache__/flask.cpython-312.pyc
+src/guesses.json
+src/guesses copy.json
+src/AvgGuess.ipynb
+src/solved.json

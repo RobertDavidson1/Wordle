@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 DATA_DIRECTORY = os.path.join(os.path.dirname(__file__), '..', 'data')
-SOLVED_JSON_PATH = os.path.join(DATA_DIRECTORY, 'backup.json')
+SOLVED_JSON_PATH = os.path.join(DATA_DIRECTORY, 'solved_game.json')
 # Load precomputed JSON when the app starts
 with open(SOLVED_JSON_PATH) as f:
     guesses = json.load(f)

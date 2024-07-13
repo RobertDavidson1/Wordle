@@ -1,5 +1,5 @@
 from data_initializer import ensure_data_exists
-from helpers import load_words, load_colouring, get_transition_info, get_tile_coloring
+from helpers import load_words, load_colouring, get_transition_info, get_tile_coloring, clear_terminal
 from Solver import Solver
 import os
 import json
@@ -18,9 +18,18 @@ def load_data(PROCESSES):
 def tree(state, colouring_data, all_guesses, all_words, PROCESSES, best_word, depth):
     solved_tree = {}
     next_states = get_transition_info(state, best_word, colouring_data)
-    next_states = dict(sorted(next_states.items(), key=lambda item: len(item[0]), reverse=True))
+    next_states = list(dict(sorted(next_states.items(), key=lambda item: len(item[0]), reverse=True)).keys())
+    
 
-    for next_state in next_states.keys():
+    for next_state in next_states:
+        if depth <= 2:
+            progress = round(next_states.index(next_state) / len(next_states)*100, 2)
+                
+            if depth == 1:
+                clear_terminal()
+                print(f"Overall Progress: {progress}% ")
+            elif len(next_state) >= 30: # reduncant to print otherwise - too fast
+                print(f"Creating state tree: {progress}%")
         colouring = get_tile_coloring(best_word, next_state[0])
         next_best_word = Solver(PROCESSES, colouring_data, all_guesses, next_state, depth)  
         
@@ -40,7 +49,7 @@ def main():
     colouring_data, all_guesses, all_words = load_data(PROCESSES)
 
     state = tuple(all_words)
-    best_word = "salet"
+    best_word = "slate"
     
     solved_tree = {
         "best word": best_word, 
@@ -56,7 +65,7 @@ def main():
         
         json.dump(solved_tree, f, indent=4)
 
-    print("Exported guesses to 'guesses.json'.")
+    print(f"Exported guesses to {SOLVED_JSON_PATH}.")
 
 if __name__ == "__main__":
     main()

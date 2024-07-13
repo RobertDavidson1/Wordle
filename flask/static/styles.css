@@ -13,7 +13,10 @@ h1 {
     padding: 0px;
     margin: 0px;
     font-size: 40px;
+    text-align: center;
+    width: 100%;
 }
+
 
 .node {
     margin-left: 20px;
@@ -65,34 +68,53 @@ h1 {
     cursor: pointer;
 }
 
+.gray, .yellow, .green, #submit, #reset {
+    transition: background-color 0.2s ease;
+}
+
 #reset {
-    right: calc(50% - 145px); /* Adjust the 160px based on the total width of the tiles */
+    right: calc(50% - 145px); 
 }
 
 #submit {
-    left: calc(50% - 145px); /* Adjust the 160px based on the total width of the tiles */
+    left: calc(50% - 145px); 
 }
 
 #reset:hover {
-    background-color: #b06161; /* Change this color to your desired hover color */
-    color: #ffffff; /* Change this color to your desired text color on hover */
+    background-color: #b06161; 
+    color: #ffffff; 
 }
 
 #submit:hover {
-    background-color: #6aaa64; /* Change this color to your desired hover color */
-    color: #ffffff; /* Change this color to your desired text color on hover */
+    background-color: #6aaa64; 
+    color: #ffffff; 
 }
+
+
 
 .gray {
     background-color: #787c7e;
 }
 
+.gray:hover {
+    background-color: #5b5e60;
+}
+
+
 .yellow {
     background-color: #c9b458;
 }
 
+.yellow:hover{
+    background-color: #b5a14f;
+
+}
 .green {
     background-color: #6aaa64;
+}
+
+.green:hover{
+    background-color: #5e9658;
 }
 
 
@@ -106,18 +128,46 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px 0;
+    padding: 10px 20px;
+    position: relative;
 }
 
-.header img {
-    vertical-align: middle; /* Centers the icons vertically */
+
+.credit-link {
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    font-size: 16px;
+    padding: 7px;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
 }
+
+
 
 .github-link {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
+    bottom: 40px;
+    left: 40px;
     background: none;
     border: none;
     cursor: pointer;
+}
+
+.github-link img {
+    transition: filter 0.3s ease;
+}
+
+.github-link img:hover {
+    filter: invert(60%) sepia(70%) saturate(601%) hue-rotate(70deg) brightness(70%) contrast(85%);
+    
+}
+
+.credit-link {
+    transition: color 0.3s ease;
+}
+
+.credit-link:hover {
+    color: #b06161;
 }

@@ -38,7 +38,7 @@ def compute_value(state, all_guesses, colouring_data, initial_action_split, hash
     for index, action in enumerate(current_list):
         if depth == 1:
             progress = int((index / len(current_list)) * 100)
-            if progress != last_printed_progress:
+            if progress != last_printed_progress and progress != 0:
                 print(f"{multiprocessing.current_process().name:<10} | Progress: {progress}%")
                 last_printed_progress = progress
 
@@ -101,8 +101,10 @@ def Solver(PROCESSES, colouring_data, all_guesses, state, depth):
     if len(state) == 1 or len(state) == 2:
         return state[0]
     else:
+        if depth == 1:
+            print(f"Length of state : {len(state):<4} | First 3 words = {state[:3]}")
         optimal_action_subsets = heuristic(all_guesses, state, colouring_data, PROCESSES)
-        print(f"Length of state : {len(state):<4} | First 3 words = {state[:3]}")
+        PROCESSES = len(optimal_action_subsets)
         best_word = solve_state(PROCESSES, colouring_data, all_guesses, state, optimal_action_subsets, depth)
-    return best_word
+        return best_word
 

@@ -21,3 +21,4 @@ src/guesses.json
 src/guesses copy.json
 src/AvgGuess.ipynb
 src/solved.json
+data/solved_game.json

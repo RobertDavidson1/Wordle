@@ -1,24 +1,3 @@
-data/precompute.json
 src/__pycache__/
-temp/
-src/temp.py
-src/mp.py
-src/main.ipynb
-src/temp.ipynb
-src/value.py
-src/stats.txt
-src/test.py
-
-src/wordle_tree.json
-src/navigate_tree.py
-src/main.py
-src/main.py
-src/KEEP.ipynb
-src/main.py
-data/backup.json
-flask/__pycache__/flask.cpython-312.pyc
-src/guesses.json
-src/guesses copy.json
-src/AvgGuess.ipynb
-src/solved.json
-data/solved_game.json
+src/flask_app/__pycache__/
+data/precompute.json

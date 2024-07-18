@@ -18,15 +18,13 @@ def download_file_if_missing(url, path):
             print(f"Failed to download {url}\n")
     else:
         print(f"{os.path.basename(path)} exists. ✅")
-    
-
 
 def ensure_data_exists():
     DATA_DIRECTORY = os.path.join(os.path.dirname(__file__), '..', 'data',)
     GUESSES_PATH = os.path.join(DATA_DIRECTORY, 'allowed_guesses.txt')
     ANSWERS_PATH = os.path.join(DATA_DIRECTORY, 'allowed_answers.txt')
     PRECOMPUTE_PATH = os.path.join(DATA_DIRECTORY, 'precompute.json')
-    SOLVED_JSON_PATH = os.path.join(DATA_DIRECTORY, 'solved_game.json')
+    SOLVED_JSON_PATH = os.path.join(DATA_DIRECTORY, 'decision_tree.json')
 
     GUESSES_URL = "https://raw.githubusercontent.com/RobertDavidson1/Wordle/main/data/allowed_guesses.txt"
     ANSWERS_URL = "https://raw.githubusercontent.com/RobertDavidson1/Wordle/main/data/allowed_answers.txt"
@@ -42,8 +40,6 @@ def ensure_data_exists():
     
     
     download_file_if_missing(GUESSES_URL, GUESSES_PATH)
-    
-    
     download_file_if_missing(ANSWERS_URL, ANSWERS_PATH)
     
 

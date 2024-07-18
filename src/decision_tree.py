@@ -73,12 +73,7 @@ def build_and_save_tree():
     state = tuple(all_words)
     depth = 0
     
-    print(f"Finding initial best word for initial state ({len(state)})")
-    # Find the best starting word
-    # best_word = next_best_guess(params.processes, params.colouring_data, params.all_guesses, state, depth)
-    # print(f"Best Word = {best_word}")
-
-    best_word = "salet"
+    best_word = "tarse"
     # Build the solved tree starting with the best word and initial state
     solved_tree = {
         "best word": best_word, 

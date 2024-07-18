@@ -122,12 +122,8 @@ def next_best_guess(PROCESSES, colouring_data, all_guesses, state, depth):
     if len(state) == 1 or len(state) == 2:
         return state[0]
     else:
-        if depth == 0:
-            print(f"Length of state : {len(state):<4}")
-            array = ['tarse', "crane", "slate", "salet", "trace"]
-            optimal_action_subsets = split_arrays(array, PROCESSES)
-        else:
-            optimal_action_subsets = heuristic(all_guesses, state, colouring_data, PROCESSES)
+        
+        optimal_action_subsets = heuristic(all_guesses, state, colouring_data, PROCESSES)
 
         PROCESSES = len(optimal_action_subsets)
     

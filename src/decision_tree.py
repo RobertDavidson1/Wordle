@@ -27,8 +27,14 @@ def build_decision_tree(state, params, best_word, depth):
 
     # Get the next states from the current state using the best word
     next_states = get_transition_info(state, best_word, params.colouring_data)
-    next_states = list(next_states.keys())
     
+
+    if depth == 1:
+        next_states = dict(sorted(next_states.items(), key=lambda item: len(item[0])))
+        
+
+    next_states = list(next_states.keys())
+
     for next_state in next_states:
         # Calculate and print progress for shallow depthss
         if depth <= 2:

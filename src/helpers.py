@@ -75,7 +75,7 @@ def get_tile_colouring(guess, solution):
     return ''.join(result) 
 
 def heuristic(actions, state,colouring_data, processes_to_split=1):
-    percentile = 98.5
+    percentile = 99.3
     transition_counts = {guess: len(get_transition_info(state, guess, colouring_data)) for guess in actions}
     lower_bound = np.percentile(list(transition_counts.values()), percentile)
     high_value_actions = [word for word, count in transition_counts.items() if count >= lower_bound]

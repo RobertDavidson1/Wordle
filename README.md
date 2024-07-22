@@ -1,1 +1,1 @@
-![Web](img/image.png)
+![Web](imgs/image.png)

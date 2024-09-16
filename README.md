@@ -10,9 +10,9 @@ ___
 ___
 # How to use:
 **To use the GUI:**
-- Run main.py to start a Flask server.
+- Run src/main.py to start a Flask server.
 - Enter the returned color codes to get the optimal word.
 
 **To auto-solve today's Wordle:**
-- Run AutoSolveBot.py.
+- Run src/AutoSolveBot.py.
 - This script uses Selenium to automatically solve the Wordle puzzle for the day.

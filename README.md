@@ -13,4 +13,5 @@ ___
 - Enter the returned color codes to get the optimal word.
 
 **To auto-solve today's Wordle:**
-- Run AutoSolveBot.py. This script uses Selenium to automatically solve the Wordle puzzle for the day.
+- Run AutoSolveBot.py.
+- This script uses Selenium to automatically solve the Wordle puzzle for the day.

@@ -7,7 +7,7 @@ ___
 
 ![Web](imgs/image.png)
 ___
-# How to USE:
+# How to use:
 **To use the GUI:**
 - Run main.py to start a Flask server.
 - Enter the returned color codes to get the optimal word.

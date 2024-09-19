@@ -3,7 +3,7 @@
 - Algorithm credit : <a href="http://wordle-page.s3-website-us-east-1.amazonaws.com/assets/Wordle_Paper_Final.pdf">Link</a>
 - Tied fastest Wordle Solving algorithm
 - Uses different starting word to original paper (Tarse vs Salet)
-- Trains in ~ 1 hour on 8 cores vs "days in C++ implementation across 64 cores"
+- Trains faster than the original paper: Takes ~ 1 hour on 8 cores vs "days in C++ implementation across 64 cores"
 ___
 
 ![Web](imgs/image.png)

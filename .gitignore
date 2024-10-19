@@ -1,5 +1,4 @@
-src/__pycache__/
-src/flask_app/__pycache__/
-data/precompute.json
-data/decision_tree copy.json
-data/decision_tree.json
+.venv
+src/__pycache__/helperFunctions.cpython-312.pyc
+src/temp.ipynb
+data/precomputeData/precompute.npy

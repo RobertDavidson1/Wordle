@@ -2,6 +2,7 @@ import os
 import json
 import platform
 import numpy as np
+from collections import defaultdict
 
 def loadWords() -> list[str]:
     abs_file_path = os.path.abspath("../data/wordsList.txt")
@@ -20,39 +21,29 @@ def loadColouring() -> dict:
     return colouringArray, wordIndices
 
 
-def getTransitionInfo(state: list[str], action: str, colouringArray: np.ndarray, wordIndices: dict) -> dict:
-    from collections import defaultdict
+def getTransitionInfo(state, action, colouringArray):
+    # takes a state (a tuple of indices of words) and an action (an index of a word)
+    # returns a dictionary with keys as the possible next states and values as the probability of transitioning to that state
+    
+    # state is a tuple of indices of words
+    stateLen = state.size
 
-    # Initialize a defaultdict to group words by their coloring
+    # group the words in the state by their colouring
     grouped_words = defaultdict(list)
-    state_len = len(state)
 
-    # Convert 'action' to its index
-    action_idx = wordIndices.get(action)
-    if action_idx is None:
-        raise ValueError(f"Action word '{action}' not found in wordIndices.")
-
-    # Iterate over each possible solution in the state
+    # iterate over all possible solutions
     for possibleSolution in state:
-        solution_idx = wordIndices.get(possibleSolution)
-        if solution_idx is None:
-            # Optionally, log or handle words not found in wordIndices
-            continue
-        # Retrieve the coloring code from the coloring array
-        tileColouring = colouringArray[action_idx, solution_idx]
-        # Group the word by its coloring code
+        # get the colouring of the tile
+        tileColouring = colouringArray[action, possibleSolution]
+        # append the solution to the list of words with the same colouring
         grouped_words[tileColouring].append(possibleSolution)
 
-    # Construct the transitionInfo dictionary
-    # Keys: Tuples of words sharing the same coloring
-    # Values: Probability of that coloring occurring
     transitionInfo = {}
-    for coloring_code, words in grouped_words.items():
-        probability = len(words) / state_len
+    for words in grouped_words.values():
+        probability = len(words) / stateLen
         transitionInfo[tuple(words)] = probability
 
     return transitionInfo
-
 
 def getTileColouring(guess, solution):
     result = 0

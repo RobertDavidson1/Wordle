@@ -1,4 +1,4 @@
 .venv
-src/__pycache__/helperFunctions.cpython-312.pyc
 src/temp.ipynb
 data/precomputeData/precompute.npy
+src/__pycache__/

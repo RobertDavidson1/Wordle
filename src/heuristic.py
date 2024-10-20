@@ -1,12 +1,9 @@
 from tqdm import tqdm
 import numpy as np
-from multiprocessing import Pool, cpu_count
-from functools import partial
-from numba import njit, prange
 
-from tqdm import tqdm
-import numpy as np
+from numba import njit, prange
 from joblib import Parallel, delayed, cpu_count
+from multiprocessing import Pool, cpu_count
 
 # USING NUMBA
 @njit(parallel=True)

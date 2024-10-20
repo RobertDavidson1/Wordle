@@ -3,8 +3,6 @@ from tqdm import tqdm
 import numpy as np
 from helperFunctions import loadWords, getTileColouring
 
-
-
 def createPrecomputeBinary():
     words = loadWords()
     N = len(words)

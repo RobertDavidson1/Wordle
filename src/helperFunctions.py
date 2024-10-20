@@ -20,28 +20,37 @@ def loadColouring() -> dict:
     return colouringArray, wordIndices
 
 
-def getTransitionInfo(state: list[str], action: str, colouringArray: np.ndarray ,wordIndices: dict) -> dict:
+def getTransitionInfo(state: list[str], action: str, colouringArray: np.ndarray, wordIndices: dict) -> dict:
+    from collections import defaultdict
+
+    # Initialize a defaultdict to group words by their coloring
+    grouped_words = defaultdict(list)
+    state_len = len(state)
+
     # Convert 'action' to its index
     action_idx = wordIndices.get(action)
     if action_idx is None:
         raise ValueError(f"Action word '{action}' not found in wordIndices.")
-    
-    state_indices = [wordIndices.get(word) for word in state]
-    state_indices = [idx for idx in state_indices if idx is not None]
-    
-    if not state_indices:
-        raise ValueError("No valid solutions in the state.")
 
-    state_indices_array = np.array(state_indices, dtype=int)
-    
-    colorings = colouringArray[action_idx, state_indices_array]
-    
-    unique_colorings, counts = np.unique(colorings, return_counts=True)
-    
-    probabilities = counts / len(state_indices)
-    
-    transitionInfo = {int(coloring): float(prob) for coloring, prob in zip(unique_colorings, probabilities)}
-    
+    # Iterate over each possible solution in the state
+    for possibleSolution in state:
+        solution_idx = wordIndices.get(possibleSolution)
+        if solution_idx is None:
+            # Optionally, log or handle words not found in wordIndices
+            continue
+        # Retrieve the coloring code from the coloring array
+        tileColouring = colouringArray[action_idx, solution_idx]
+        # Group the word by its coloring code
+        grouped_words[tileColouring].append(possibleSolution)
+
+    # Construct the transitionInfo dictionary
+    # Keys: Tuples of words sharing the same coloring
+    # Values: Probability of that coloring occurring
+    transitionInfo = {}
+    for coloring_code, words in grouped_words.items():
+        probability = len(words) / state_len
+        transitionInfo[tuple(words)] = probability
+
     return transitionInfo
 
 

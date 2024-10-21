@@ -1,7 +1,7 @@
 import json
 from tqdm import tqdm
 import numpy as np
-from helperFunctions import loadWords, getTileColouring
+from src.gameTree.helperFunctions import loadWords, getTileColouring
 
 def createPrecomputeBinary():
     # Load the list of words
@@ -28,3 +28,6 @@ def createPrecomputeBinary():
     # Save the word-index mapping to a JSON file
     with open("../data/precomputeData/word_indices.json", "w") as f:
         json.dump(wordIndices, f)
+
+if __name__ == "__main__":
+    createPrecomputeBinary()
